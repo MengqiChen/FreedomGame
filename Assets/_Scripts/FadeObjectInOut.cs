@@ -43,7 +43,10 @@ public class FadeObjectInOut : MonoBehaviour
 		}
 	}
 	
-	
+	public IEnumerator FadeOutOnDelay() {
+		yield return new WaitForSeconds (fadeDelay);
+		FadeOut (fadeTime);
+	}
 	
 	
 	// check the alpha value of most opaque object
@@ -126,12 +129,12 @@ public class FadeObjectInOut : MonoBehaviour
 	}
 	
 	
-	void FadeIn ()
+	public void FadeIn ()
 	{
 		FadeIn (fadeTime); 
 	}
 	
-	void FadeOut ()
+	public void FadeOut ()
 	{
 		FadeOut (fadeTime); 		
 	}
