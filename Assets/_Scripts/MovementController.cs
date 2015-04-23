@@ -7,18 +7,22 @@ public class MovementController : MonoBehaviour {
 	public float maxSpeed = 10f;
 	bool facingRight = true;
 
+	private GameObject gameController;
 	private Rigidbody2D rbody;
 	private Animator anim;
+	private AudioSource audio;
 
 	// Use this for initialization
 	void Start () {
 		rbody = GetComponent<Rigidbody2D> ();
 		anim = GetComponent<Animator> ();
+		gameController = GameObject.FindGameObjectWithTag ("GameController");
+		audio = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 
 	void FixedUpdate() {
@@ -31,8 +35,16 @@ public class MovementController : MonoBehaviour {
 			moveX = Input.GetAxis ("Horizontal2");
 			moveY = Input.GetAxis ("Vertical2");
 		}
-		anim.SetFloat ("Speed", Mathf.Abs (moveX) + Mathf.Abs(moveY));
+		float speed = Mathf.Abs (moveX) + Mathf.Abs (moveY);
+		anim.SetFloat ("Speed", speed);
 		rbody.velocity = new Vector2 (moveX * maxSpeed, moveY * maxSpeed);
+
+		// score
+		if (playerOne && speed > 0) {
+			gameController.GetComponent<GameController> ().IncreaseScore (0, speed);
+		} else if (speed > 0) {
+			gameController.GetComponent<GameController> ().IncreaseScore (1, speed);
+		}
 
 		if (moveX > 0 && !facingRight) {
 			Flip ();
@@ -46,5 +58,9 @@ public class MovementController : MonoBehaviour {
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+	}
+
+	void PlaySound() {
+		audio.Play ();
 	}
 }
