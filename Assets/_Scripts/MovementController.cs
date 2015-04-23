@@ -10,17 +10,19 @@ public class MovementController : MonoBehaviour {
 	private GameObject gameController;
 	private Rigidbody2D rbody;
 	private Animator anim;
+	private AudioSource audio;
 
 	// Use this for initialization
 	void Start () {
 		rbody = GetComponent<Rigidbody2D> ();
 		anim = GetComponent<Animator> ();
 		gameController = GameObject.FindGameObjectWithTag ("GameController");
+		audio = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 
 	void FixedUpdate() {
@@ -56,5 +58,9 @@ public class MovementController : MonoBehaviour {
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+	}
+
+	void PlaySound() {
+		audio.Play ();
 	}
 }
