@@ -20,7 +20,6 @@ public class FadeObjectInOut : MonoBehaviour
 	public float fadeTime = 0.5f;
 	public bool fadeInOnStart = false;
 	public bool fadeOutOnStart = false;
-	public bool destroyOnFadeOut = true;
 	private bool logInitialFadeSequence = false;	
 	
 	// store colours
@@ -124,9 +123,7 @@ public class FadeObjectInOut : MonoBehaviour
 			for (int i = 0; i < rendererObjects.Length; i++)
 			{
 				rendererObjects[i].enabled = false; 
-				if (destroyOnFadeOut) {
-					Destroy(rendererObjects[i].gameObject);
-				}
+				Destroy(rendererObjects[i].gameObject);
 			}
 		}
 	}
@@ -140,11 +137,6 @@ public class FadeObjectInOut : MonoBehaviour
 	public void FadeOut ()
 	{
 		FadeOut (fadeTime); 		
-	}
-
-	public void FadeOut(bool destroy) {
-		destroyOnFadeOut = destroy;
-		FadeOut (fadeTime);
 	}
 	
 	void FadeIn (float newFadeTime)

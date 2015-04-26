@@ -47,17 +47,17 @@ public class BalloonAction : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D collision) {
 		anim.SetTrigger ("Popped");
 		isPopped = true;
-		gameObject.GetComponent<FadeObjectInOut> ().FadeOut (false);
+		Respawn ();
+		gameObject.GetComponent<Renderer> ().enabled = false;
 		gameObject.SetActive (false);
 		Invoke ("Respawn", 3);
 	}
 
 	void Respawn() {
-		//GameObject clone;
-		//clone = Instantiate (gameObject, origPos, transform.rotation) as GameObject;
-		gameObject.GetComponent<Renderer> ().enabled = true;
-		gameObject.SetActive (true);
-		isPopped = false;
+		GameObject clone;
+		clone = Instantiate (gameObject, origPos, transform.rotation) as GameObject;
+		clone.GetComponent<Renderer> ().enabled = true;
+		clone.SetActive (true);
 	}
 
 	void PlaySound() {
