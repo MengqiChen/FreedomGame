@@ -5,7 +5,7 @@ public class BalloonAction : MonoBehaviour {
 
 	public float bobDistance = 0.5f;
 
-	private AudioSource audio;
+	private AudioSource sound;
 	private Animator anim;
 	private bool up = false;
 	private bool isPopped = false;
@@ -16,7 +16,7 @@ public class BalloonAction : MonoBehaviour {
 		anim = GetComponent<Animator> ();
 		origPos = transform.position;
 		bobPos = new Vector3 (origPos.x, origPos.y + bobDistance);
-		audio = GetComponent<AudioSource> ();
+		sound = GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -44,23 +44,23 @@ public class BalloonAction : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D collision) {
-		anim.SetTrigger ("Popped");
-		isPopped = true;
-		Respawn ();
-		gameObject.GetComponent<Renderer> ().enabled = false;
-		gameObject.SetActive (false);
-		Invoke ("Respawn", 3);
+	void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.tag == "Player") {
+			anim.Play ("Pop");
+			isPopped = true;
+			gameObject.GetComponent<Renderer> ().enabled = false;
+			gameObject.SetActive (false);
+			Invoke ("Respawn", 3);
+		}
 	}
 
 	void Respawn() {
 		GameObject clone;
 		clone = Instantiate (gameObject, origPos, transform.rotation) as GameObject;
-		clone.GetComponent<Renderer> ().enabled = true;
 		clone.SetActive (true);
 	}
 
 	void PlaySound() {
-		audio.Play ();
+		sound.Play ();
 	}
 }

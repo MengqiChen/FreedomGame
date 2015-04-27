@@ -10,14 +10,14 @@ public class MovementController : MonoBehaviour {
 	private GameObject gameController;
 	private Rigidbody2D rbody;
 	private Animator anim;
-	private AudioSource audio;
+	private AudioSource sound;
 
 	// Use this for initialization
 	void Start () {
 		rbody = GetComponent<Rigidbody2D> ();
 		anim = GetComponent<Animator> ();
 		gameController = GameObject.FindGameObjectWithTag ("GameController");
-		audio = GetComponent<AudioSource>();
+		sound = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -61,6 +61,6 @@ public class MovementController : MonoBehaviour {
 	}
 
 	void PlaySound() {
-		audio.Play ();
+		sound.Play ();
 	}
 }
