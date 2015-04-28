@@ -17,7 +17,6 @@ public class Orbit : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		Debug.Log ("d");
 		if (other.gameObject.tag == "Player") {
 			parent.GetComponent<Follow> ().target = other.gameObject.transform;
 		}

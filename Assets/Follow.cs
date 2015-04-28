@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Follow : MonoBehaviour {
-
+	
 	public Transform target;
 
 	// Use this for initialization

@@ -5,6 +5,8 @@ public class GameController : MonoBehaviour {
 
 	private float p1Score = 0;
 	private float p2Score = 0;
+	public int p1Followers = 0;
+	public int p2Followers = 0;
 
 	// Use this for initialization
 	void Start () {
