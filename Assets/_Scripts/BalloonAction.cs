@@ -5,18 +5,28 @@ public class BalloonAction : MonoBehaviour {
 
 	public float bobDistance = 0.5f;
 
-	private AudioSource audio;
+	private Renderer rend;
+	private AudioSource sound;
 	private Animator anim;
+	private Collider2D coll;
 	private bool up = false;
 	private bool isPopped = false;
 	private Vector2 origPos, bobPos;
+	private GameObject clone;
+	private GameObject gameController;
 
 	// Use this for initialization
 	void Start () {
+		rend = GetComponent<Renderer> ();
 		anim = GetComponent<Animator> ();
+		anim.Play ("IdleBalloon");
+		coll = GetComponent<Collider2D> ();
+		coll.enabled = true;
 		origPos = transform.position;
 		bobPos = new Vector3 (origPos.x, origPos.y + bobDistance);
-		audio = GetComponent<AudioSource> ();
+		sound = GetComponent<AudioSource> ();
+		clone = gameObject;
+		gameController = GameObject.FindGameObjectWithTag ("GameController");
 	}
 	
 	// Update is called once per frame
@@ -44,23 +54,32 @@ public class BalloonAction : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D collision) {
-		anim.SetTrigger ("Popped");
-		isPopped = true;
-		Respawn ();
-		gameObject.GetComponent<Renderer> ().enabled = false;
-		gameObject.SetActive (false);
-		Invoke ("Respawn", 3);
+	void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.tag == "Player" && GetComponent<FadeObjectInOut>().done) {
+			anim.Play ("Pop");
+			isPopped = true;
+			coll.enabled = false;
+			if (other.gameObject.GetComponent<MovementController>().playerOne) {
+				gameController.GetComponent<GameController>().IncreaseScore(0, 500);
+			} else {
+				gameController.GetComponent<GameController>().IncreaseScore(1, 500);
+			}
+			Invoke("Cleanup", 1);
+			Invoke ("Respawn", 3);
+		}
+	}
+
+	void Cleanup() {
+		rend.enabled = false;
+		anim.Play ("IdleBalloon");
 	}
 
 	void Respawn() {
-		GameObject clone;
-		clone = Instantiate (gameObject, origPos, transform.rotation) as GameObject;
-		clone.GetComponent<Renderer> ().enabled = true;
-		clone.SetActive (true);
+		clone.GetComponent<Renderer> ().enabled = false;
+		Instantiate (clone, origPos, transform.rotation);
 	}
 
 	void PlaySound() {
-		audio.Play ();
+		sound.Play ();
 	}
 }

@@ -18,6 +18,7 @@ public class FadeObjectInOut : MonoBehaviour
 	// publically editable speed
 	public float fadeDelay = 0.0f;
 	public float fadeTime = 0.5f;
+	public bool done = false;
 	public bool fadeInOnStart = false;
 	public bool fadeOutOnStart = false;
 	private bool logInitialFadeSequence = false;	
@@ -28,6 +29,7 @@ public class FadeObjectInOut : MonoBehaviour
 	// allow automatic fading on the start of the scene
 	IEnumerator Start ()
 	{
+		done = false;
 		//yield return null; 
 		yield return new WaitForSeconds (fadeDelay); 
 		
@@ -116,7 +118,7 @@ public class FadeObjectInOut : MonoBehaviour
 			
 			yield return null; 
 		}
-		
+
 		// turn objects off after fading out
 		if (fadingOut)
 		{
@@ -126,6 +128,8 @@ public class FadeObjectInOut : MonoBehaviour
 				Destroy(rendererObjects[i].gameObject);
 			}
 		}
+
+		done = true;
 	}
 	
 	
