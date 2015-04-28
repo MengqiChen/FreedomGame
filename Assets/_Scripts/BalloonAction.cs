@@ -13,6 +13,7 @@ public class BalloonAction : MonoBehaviour {
 	private bool isPopped = false;
 	private Vector2 origPos, bobPos;
 	private GameObject clone;
+	private GameObject gameController;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,7 @@ public class BalloonAction : MonoBehaviour {
 		bobPos = new Vector3 (origPos.x, origPos.y + bobDistance);
 		sound = GetComponent<AudioSource> ();
 		clone = gameObject;
+		gameController = GameObject.FindGameObjectWithTag ("GameController");
 	}
 	
 	// Update is called once per frame
@@ -57,6 +59,11 @@ public class BalloonAction : MonoBehaviour {
 			anim.Play ("Pop");
 			isPopped = true;
 			coll.enabled = false;
+			if (other.gameObject.GetComponent<MovementController>().playerOne) {
+				gameController.GetComponent<GameController>().IncreaseScore(0, 500);
+			} else {
+				gameController.GetComponent<GameController>().IncreaseScore(1, 500);
+			}
 			Invoke("Cleanup", 1);
 			Invoke ("Respawn", 3);
 		}
