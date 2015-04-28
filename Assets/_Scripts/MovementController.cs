@@ -5,7 +5,7 @@ public class MovementController : MonoBehaviour {
 
 	public bool playerOne = true;
 	public float maxSpeed = 10f;
-	bool facingRight = true;
+	public bool facingRight = true;
 
 	private GameObject gameController;
 	private Rigidbody2D rbody;

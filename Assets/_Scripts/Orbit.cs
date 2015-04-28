@@ -28,6 +28,7 @@ public class Orbit : MonoBehaviour {
 			} else {
 				gameController.GetComponent<GameController>().IncreaseScore(1, 1000);
 			}
+			GetComponent<Collider2D>().enabled = false;
 			sound.Play();
 		}
 	}
