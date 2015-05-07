@@ -52,6 +52,14 @@ public class ScreenEdgeController : MonoBehaviour {
 			} else if (level == 3) {
 				cam.orthographicSize += subsequentZoom;
 				thirdBarrier.GetComponent<FadeObjectInOut>().enabled = true;
+				Vector3 scale = transform.localScale;
+				scale.y = 2;
+				if (GetComponent<MovementController>().facingRight) {
+					scale.x = 2;
+				} else {
+					scale.x = -2;
+				}
+				transform.localScale = scale;
 			} else if (level == 4) {
 				cam.orthographicSize += subsequentZoom;
 				fourthBarrier.GetComponent<FadeObjectInOut>().enabled = true;
